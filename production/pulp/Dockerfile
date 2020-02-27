@@ -27,6 +27,9 @@ RUN source scl_source enable ${ENABLED_COLLECTIONS} \
         -c /tmp/pulp/constraints.txt \
         -r /tmp/pulp/requirements.txt
 
+COPY ../../../galaxy-importer /tmp/galaxy-importer
+RUN pip install -e /tmp/galaxy-importer
+
 COPY ansible.cfg /etc/ansible/ansible.cfg
 COPY settings.py /etc/pulp/settings.py
 COPY entrypoint.sh /entrypoint
