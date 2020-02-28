@@ -1,0 +1,22 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: {build_name}
+  labels:
+    app: automation-hub
+spec:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  output:
+    to:
+      kind: ImageStreamTag
+      name: {image_name}
+  source:
+    dockerfile: "FROM awcrosby/ans-test-dl-archive:latest"
+  strategy:
+    type: Docker
+    dockerStrategy: {{}}
+  triggers:
+  - type: ConfigChange
