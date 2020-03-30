@@ -18,9 +18,11 @@ RUN yum -y install centos-release-scl-rh \
     && yum -y clean all
 
 COPY constraints.txt requirements.txt /tmp/pulp/
+COPY galaxy-importer /tmp/galaxy-importer
 RUN source scl_source enable ${ENABLED_COLLECTIONS} \
     && python3.6 -m venv "${PULP_VENV}" \
     && source "${PULP_VENV}/bin/activate" \
+    && pip install -e /tmp/galaxy-importer \
     && pip install --no-cache-dir -U \
         'pip>=20.0,<21.0' \
     && pip install --no-cache-dir \
