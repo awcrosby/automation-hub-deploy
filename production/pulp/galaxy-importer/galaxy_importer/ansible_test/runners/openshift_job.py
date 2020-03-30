@@ -313,10 +313,18 @@ class Job(object):
 
         for pod in self.get_pods():
             pod_name = self.get_pod_name(pod)
-            pod_status = pod['status']
-            pod_phase = pod['status']['phase']
-            self.log.info(pod_status)
-            self.log.info(pod_phase)
             requests.delete(
                 f'{self.pods_url}/{pod_name}', headers=self.auth_header, verify=self.ca_path)
             self.log.debug(f'Deleted pod {pod_name}')
+
+            self.log.info(pod['status']['phase'])
+            # if pod['status']['phase'] == 'Failed':
+            if True:
+                try:
+                    reason = pod['status']['containerStatuses'][0]['state']['terminated']['reason']
+                    self.log.error(f'Pod terminated with reason: {reason}')
+                except (KeyError, IndexError):
+                    pass
+                raise exceptions.AnsibleTestError('Pod terminated with status phase of "Failed"')
+
+            self.log.info(pod['status']['phase'])
