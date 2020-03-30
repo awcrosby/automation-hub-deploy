@@ -15,7 +15,7 @@ spec:
         image: {image}
         resources:
           limits:
-            cpu: 1000m
+            cpu: 500m
             memory: 512Mi
       restartPolicy: Never
       imagePullPolicy: IfNotPresent
